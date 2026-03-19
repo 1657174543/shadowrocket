@@ -105,6 +105,11 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        body.dark-mode {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
         /* 移动端触摸优化 */
         a, button {
             -webkit-tap-highlight-color: rgba(59, 130, 246, 0.1);
@@ -137,6 +142,12 @@
             justify-content: flex-start;
             gap: 40px;
             width: 100%;
+            position: relative;
+        }
+
+        body.dark-mode .navbar {
+            background: #111827;
+            border-bottom-color: rgba(148, 163, 184, 0.2);
         }
 
         .navbar-brand {
@@ -147,6 +158,10 @@
             color: var(--text-primary);
             font-weight: 600;
             font-size: 18px;
+        }
+
+        body.dark-mode .navbar-brand {
+            color: #f8fafc;
         }
 
         .navbar-logo {
@@ -167,6 +182,62 @@
             margin-left: auto;
         }
 
+        .navbar-center-group {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-center-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: #ef4444;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.35);
+            white-space: nowrap;
+            animation: navbarPulse 1.1s ease-in-out infinite alternate;
+        }
+
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 999px;
+            background: #111827;
+            color: #ffffff;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.22);
+        }
+
+        body.dark-mode .theme-toggle-btn {
+            background: #f8fafc;
+            color: #f59e0b;
+        }
+
+        @keyframes navbarPulse {
+            0% {
+                transform: translateX(-50%) scale(1);
+                box-shadow: 0 6px 16px rgba(239, 68, 68, 0.28);
+            }
+            100% {
+                transform: translateX(-50%) scale(1.08);
+                box-shadow: 0 10px 22px rgba(239, 68, 68, 0.45);
+            }
+        }
+
         .navbar-links a {
             padding: 6px 12px;
             border-radius: 6px;
@@ -181,6 +252,16 @@
         .navbar-links a.active {
             background: var(--bg-tertiary);
             color: var(--primary-color);
+        }
+
+        body.dark-mode .navbar-links a {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .navbar-links a:hover,
+        body.dark-mode .navbar-links a.active {
+            background: rgba(51, 65, 85, 0.85);
+            color: #f8fafc;
         }
 
         .navbar-mobile-link {
@@ -205,6 +286,11 @@
             height: auto;
         }
 
+        body.dark-mode .floating-wx {
+            background: #0f172a;
+            box-shadow: 0 10px 30px rgba(2, 6, 23, 0.45);
+        }
+
         /* 主容器 */
         .main-container {
             display: flex;
@@ -223,6 +309,11 @@
             bottom: 0;
             overflow-y: auto;
             padding: 24px 0;
+        }
+
+        body.dark-mode .sidebar {
+            background: #111827;
+            border-right-color: rgba(148, 163, 184, 0.18);
         }
 
         .sidebar::-webkit-scrollbar {
@@ -246,6 +337,10 @@
             text-transform: uppercase;
             letter-spacing: 0.08em;
             margin-bottom: 8px;
+        }
+
+        body.dark-mode .sidebar-title {
+            color: #94a3b8;
         }
 
         .sidebar-menu {
@@ -278,6 +373,21 @@
             background: rgba(59, 130, 246, 0.08);
         }
 
+        body.dark-mode .sidebar-menu a {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .sidebar-menu a:hover {
+            color: #f8fafc;
+            background: rgba(30, 41, 59, 0.9);
+        }
+
+        body.dark-mode .sidebar-menu a.active {
+            color: #f8fafc;
+            border-left-color: #38bdf8;
+            background: rgba(30, 41, 59, 0.95);
+        }
+
         /* 主内容区 */
         .content {
             flex: 1;
@@ -291,6 +401,10 @@
             max-width: 100%;
         }
 
+        body.dark-mode .content {
+            color: #e2e8f0;
+        }
+
         /* 右侧TOC */
         .toc-sidebar {
             width: 240px;
@@ -301,6 +415,10 @@
             padding: 48px 24px;
             border-left: 1px solid var(--border-color);
             overflow-y: auto;
+        }
+
+        body.dark-mode .toc-sidebar {
+            border-left-color: rgba(148, 163, 184, 0.18);
         }
 
         .toc-title {
@@ -338,6 +456,16 @@
             border-left-color: var(--primary-color);
         }
 
+        body.dark-mode .toc-list a {
+            color: #94a3b8;
+        }
+
+        body.dark-mode .toc-list a:hover,
+        body.dark-mode .toc-list a.active {
+            color: #f8fafc;
+            border-left-color: #38bdf8;
+        }
+
         /* 文档内容样式 */
         .doc-header {
             margin-bottom: 32px;
@@ -353,10 +481,23 @@
             letter-spacing: -0.02em;
         }
 
+        body.dark-mode .doc-title,
+        body.dark-mode h2,
+        body.dark-mode h3 {
+            color: #f8fafc;
+        }
+
         .doc-description {
             font-size: 16px;
             color: var(--text-secondary);
             line-height: 1.6;
+        }
+
+        body.dark-mode .doc-description,
+        body.dark-mode p,
+        body.dark-mode li,
+        body.dark-mode code {
+            color: #cbd5e1;
         }
 
         h2 {
@@ -579,6 +720,12 @@
             font-size: 14px;
         }
 
+        body.dark-mode footer {
+            background: #111827;
+            border-top-color: rgba(148, 163, 184, 0.18);
+            color: #cbd5e1;
+        }
+
         footer a {
             color: var(--primary-color);
             text-decoration: none;
@@ -619,6 +766,16 @@
 
             .navbar-links {
                 display: none;
+            }
+
+            .navbar-center-group {
+                position: static;
+                transform: none;
+                margin-left: auto;
+            }
+
+            .navbar-center-link {
+                animation: none;
             }
 
             .navbar-mobile-link {
@@ -821,6 +978,10 @@
                 <img src="static/picture/logo.png" alt="免费小火箭Shadowrocket共享账号" style="width: 32px; height: 32px; border-radius: 6px;">
                 <span>免费小火箭共享账号</span>
             </a>
+            <div class="navbar-center-group">
+                <a href="https://pan.quark.cn/s/a22b06fb10c8" target="_blank" rel="noopener noreferrer" class="navbar-center-link">免费节点点我</a>
+                <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="切换黑夜模式" title="切换黑夜模式">🌙</button>
+            </div>
             <ul class="navbar-links">
                 <li><a href="#intro" class="active">指南</a></li>
                 <li><a href="#account">获取账号</a></li>
@@ -1145,6 +1306,37 @@
         // 页面加载时更新日期
         window.addEventListener('DOMContentLoaded', updateDate);
 
+        // 主题切换
+        function syncThemeToggleButton() {
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            if (!themeToggleBtn) return;
+
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            themeToggleBtn.textContent = isDarkMode ? '☀️' : '🌙';
+            themeToggleBtn.setAttribute('aria-label', isDarkMode ? '切换白天模式' : '切换黑夜模式');
+            themeToggleBtn.setAttribute('title', isDarkMode ? '切换白天模式' : '切换黑夜模式');
+        }
+
+        function applyTheme(theme) {
+            document.body.classList.toggle('dark-mode', theme === 'dark');
+            localStorage.setItem('theme-mode', theme);
+            syncThemeToggleButton();
+            if (accountsData.length > 0) {
+                renderAccounts();
+            }
+        }
+
+        const savedThemeMode = localStorage.getItem('theme-mode');
+        if (savedThemeMode === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+        syncThemeToggleButton();
+
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+            const nextTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+            applyTheme(nextTheme);
+        });
+
         // 收藏页面功能
         function bookmarkPage() {
             const pageTitle = document.title;
@@ -1287,6 +1479,13 @@
         // 渲染账号卡片
         function renderAccounts() {
             const container = document.getElementById('accounts-container');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const cardBackground = isDarkMode ? '#111827' : '#f8fafc';
+            const cardBorder = isDarkMode ? 'rgba(148, 163, 184, 0.2)' : '#e2e8f0';
+            const mutedText = isDarkMode ? '#94a3b8' : '#64748b';
+            const labelText = isDarkMode ? '#64748b' : '#94a3b8';
+            const primaryText = isDarkMode ? '#f8fafc' : '#1e293b';
+            const cardHoverShadow = isDarkMode ? '0 10px 24px rgba(2, 6, 23, 0.45)' : '0 4px 12px rgba(0,0,0,0.1)';
 
             if (accountsData.length === 0) {
                 container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">暂无可用账号</div>';
@@ -1297,25 +1496,25 @@
             const displayAccounts = accountsData.slice(0, 20);
 
             container.innerHTML = displayAccounts.map((account, index) => `
-                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; transition: all 0.2s;"
-                     onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'"
+                <div style="background: ${cardBackground}; border: 1px solid ${cardBorder}; border-radius: 8px; padding: 16px; transition: all 0.2s;"
+                     onmouseover="this.style.boxShadow='${cardHoverShadow}'"
                      onmouseout="this.style.boxShadow='none'">
                     <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                        <span style="font-size: 12px; color: #64748b; font-weight: 600;">账号-${index + 1}</span>
+                        <span style="font-size: 12px; color: ${mutedText}; font-weight: 600;">账号-${index + 1}</span>
                         <span style="background: ${account.status === '正常' ? '#10b981' : '#ef4444'}; color: white; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600;">${account.status}</span>
                     </div>
 
                     <div style="margin-bottom: 12px;">
-                        <div style="font-size: 11px; color: #94a3b8; margin-bottom: 4px;">账号：</div>
-                        <div style="font-size: 13px; font-weight: 600; color: #1e293b; word-break: break-all;">${account.email}</div>
+                        <div style="font-size: 11px; color: ${labelText}; margin-bottom: 4px;">账号：</div>
+                        <div style="font-size: 13px; font-weight: 600; color: ${primaryText}; word-break: break-all;">${account.email}</div>
                     </div>
 
                     <div style="margin-bottom: 12px;">
-                        <div style="font-size: 11px; color: #94a3b8; margin-bottom: 4px;">密码：</div>
-                        <div style="font-size: 13px; font-weight: 600; color: #1e293b;">${escapeHtml(account.password)}</div>
+                        <div style="font-size: 11px; color: ${labelText}; margin-bottom: 4px;">密码：</div>
+                        <div style="font-size: 13px; font-weight: 600; color: ${primaryText};">${escapeHtml(account.password)}</div>
                     </div>
 
-                    <div style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">
+                    <div style="font-size: 11px; color: ${labelText}; margin-bottom: 12px;">
                         更新：${account.time}
                     </div>
 
@@ -1385,6 +1584,8 @@
                 existingToast.remove();
             }
 
+            const isDarkMode = document.body.classList.contains('dark-mode');
+
             const toast = document.createElement('div');
             toast.id = 'toast';
             toast.textContent = message;
@@ -1393,14 +1594,14 @@
                 bottom: 32px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: #1e293b;
-                color: white;
+                background: ${isDarkMode ? '#f8fafc' : '#1e293b'};
+                color: ${isDarkMode ? '#0f172a' : '#ffffff'};
                 padding: 12px 24px;
                 border-radius: 8px;
                 font-size: 14px;
                 font-weight: 500;
                 z-index: 10000;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                box-shadow: ${isDarkMode ? '0 10px 24px rgba(2, 6, 23, 0.45)' : '0 4px 12px rgba(0,0,0,0.3)'};
             `;
 
             document.body.appendChild(toast);
@@ -1413,13 +1614,20 @@
         // 显示错误
         function showError(errorMessage = '无法连接到服务器，请检查网络连接') {
             const container = document.getElementById('accounts-container');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const cardBackground = isDarkMode ? '#111827' : '#ffffff';
+            const cardBorder = isDarkMode ? 'rgba(148, 163, 184, 0.2)' : '#e5e7eb';
+            const mutedText = isDarkMode ? '#94a3b8' : '#64748b';
+            const warningBackground = isDarkMode ? '#3f2a04' : '#fef3c7';
+            const warningBorder = isDarkMode ? '#f59e0b' : '#fbbf24';
+            const warningText = isDarkMode ? '#fde68a' : '#92400e';
 
             // 检测是否通过 file:// 协议访问
             if (window.location.protocol === 'file:') {
                 container.innerHTML = `
-                    <div style="grid-column: 1 / -1; background: #fef3c7; border: 2px solid #fbbf24; border-radius: 12px; padding: 32px; max-width: 100%; margin: 0 auto;">
+                    <div style="grid-column: 1 / -1; background: ${warningBackground}; border: 2px solid ${warningBorder}; border-radius: 12px; padding: 32px; max-width: 100%; margin: 0 auto;">
                         <div style="font-size: 24px; margin-bottom: 16px;">⚠️ 需要启动本地服务器</div>
-                        <div style="color: #92400e; line-height: 1.8; text-align: left; margin-bottom: 24px;">
+                        <div style="color: ${warningText}; line-height: 1.8; text-align: left; margin-bottom: 24px;">
                             <p style="margin-bottom: 12px;">由于浏览器安全限制，从文件系统直接打开HTML无法加载外部数据。</p>
                             <p style="margin-bottom: 12px; font-weight: 600;">请按照以下步骤操作：</p>
                             <ol style="margin-left: 20px; margin-bottom: 16px;">
@@ -1437,9 +1645,9 @@
             } else {
                 // 正常的网络错误
                 container.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: ${cardBackground}; border: 1px solid ${cardBorder}; border-radius: 12px;">
                         <div style="font-size: 16px; color: #ef4444; margin-bottom: 12px;">⚠️ 加载失败</div>
-                        <div style="color: #64748b; margin-bottom: 16px; font-size: 14px;">${errorMessage}</div>
+                        <div style="color: ${mutedText}; margin-bottom: 16px; font-size: 14px;">${errorMessage}</div>
                         <button onclick="fetchAccounts()" style="background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
                             重新加载
                         </button>
