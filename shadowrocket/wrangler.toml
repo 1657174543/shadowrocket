@@ -1,0 +1,4 @@
+"$schema" = "./node_modules/wrangler/config-schema.json"
+name = "shadowrocket"
+pages_build_output_dir = "."
+compatibility_date = "2026-03-19"
