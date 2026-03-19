@@ -286,9 +286,24 @@
             height: auto;
         }
 
+        .floating-wx-text {
+            width: 100%;
+            padding: 10px 8px 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            text-align: center;
+            color: #334155;
+            background: #ffffff;
+        }
+
         body.dark-mode .floating-wx {
             background: #0f172a;
             box-shadow: 0 10px 30px rgba(2, 6, 23, 0.45);
+        }
+
+        body.dark-mode .floating-wx-text {
+            color: #e2e8f0;
+            background: #0f172a;
         }
 
         /* 主容器 */
@@ -969,6 +984,7 @@
 <body>
     <div class="floating-wx">
         <img src="static/picture/wx.jpg" alt="微信二维码">
+        <div class="floating-wx-text">长按上方二维码添加客服</div>
     </div>
 
     <!-- 导航栏 -->
