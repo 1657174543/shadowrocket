@@ -1482,6 +1482,15 @@
                     accountsData = data.id;
                     console.log(`✅ 成功加载 ${accountsData.length} 个账号`);
                     renderAccounts();
+                } else if (data && data.accounts && Array.isArray(data.accounts)) {
+                    accountsData = data.accounts.map((item) => ({
+                        email: item.email || item.username || '',
+                        password: item.password || '',
+                        status: item.status || '正常',
+                        time: item.time || '',
+                    }));
+                    console.log(`✅ 成功加载 ${accountsData.length} 个账号`);
+                    renderAccounts();
                 } else {
                     console.error('❌ 数据格式错误:', data);
                     throw new Error('数据格式错误: 未找到账号数组');
