@@ -1536,12 +1536,12 @@
 
                     <div style="margin-bottom: 12px;">
                         <div style="font-size: 11px; color: ${labelText}; margin-bottom: 4px;">账号：</div>
-                        <div style="font-size: 13px; font-weight: 600; color: ${primaryText}; word-break: break-all;">${account.email}</div>
+                        <div style="font-size: 13px; font-weight: 600; color: ${primaryText}; word-break: break-all;">${escapeHtml(maskString(account.email || ''))}</div>
                     </div>
 
                     <div style="margin-bottom: 12px;">
                         <div style="font-size: 11px; color: ${labelText}; margin-bottom: 4px;">密码：</div>
-                        <div style="font-size: 13px; font-weight: 600; color: ${primaryText};">${escapeHtml(account.password)}</div>
+                        <div style="font-size: 13px; font-weight: 600; color: ${primaryText};">${escapeHtml(maskString(account.password || ''))}</div>
                     </div>
 
                     <div style="font-size: 11px; color: ${labelText}; margin-bottom: 12px;">
@@ -1558,6 +1558,11 @@
                     </div>
                 </div>
             `).join('');
+        }
+
+        function maskString(str) {
+            if (!str || str.length <= 6) return str || '';
+            return str.slice(0, 3) + '*'.repeat(str.length - 6) + str.slice(-3);
         }
 
         // HTML转义
