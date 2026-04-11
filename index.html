@@ -1446,7 +1446,7 @@
         });
 
         // 账号管理系统
-        const API_URL = 'https://shadowrocket-46x.pages.dev/api/accounts-v2';
+        const API_URL = '/api/accounts';
         let accountsData = [];
 
         // 获取账号数据
@@ -1487,6 +1487,7 @@
                         password: item.password || '',
                         status: item.status || '正常',
                         time: item.time || '',
+                        remark: item.remark || '',
                     }));
                     console.log(`✅ 成功加载 ${accountsData.length} 个账号`);
                     renderAccounts();
@@ -1529,6 +1530,11 @@
                     </div>
 
                     <div style="margin-bottom: 12px;">
+                        <div style="font-size: 11px; color: ${labelText}; margin-bottom: 4px;">备注：</div>
+                        <div style="font-size: 13px; font-weight: 600; color: ${primaryText}; word-break: break-all;">${escapeHtml(account.remark || '无备注')}</div>
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
                         <div style="font-size: 11px; color: ${labelText}; margin-bottom: 4px;">账号：</div>
                         <div style="font-size: 13px; font-weight: 600; color: ${primaryText}; word-break: break-all;">${account.email}</div>
                     </div>
@@ -1539,7 +1545,7 @@
                     </div>
 
                     <div style="font-size: 11px; color: ${labelText}; margin-bottom: 12px;">
-                        更新：${account.time}
+                        检查：${account.time}
                     </div>
 
                     <div style="display: flex; gap: 8px;">
