@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动态账号卡片网格</title>
+  <style>
+    :root {
+      --bg: transparent;
+      --card-bg: #f8fafc;
+      --card-border: #e2e8f0;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --danger: #ef4444;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      padding: 0;
+    }
+
+    .wrap {
+      width: 100%;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 16px;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .card-index {
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge {
+      color: #fff;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge.ok {
+      background: var(--success);
+    }
+
+    .badge.bad {
+      background: var(--danger);
+    }
+
+    .row {
+      margin-bottom: 12px;
+    }
+
+    .row:last-of-type {
+      margin-bottom: 14px;
+    }
+
+    .label {
+      color: var(--text-muted);
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .value {
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      flex: 1;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn-user {
+      background: var(--primary);
+    }
+
+    .btn-user:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-pass {
+      background: var(--success);
+    }
+
+    .btn-pass:hover {
+      background: #059669;
+    }
+
+    .state {
+      text-align: center;
+      color: var(--text-secondary);
+      padding: 28px 16px;
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="accountsGrid" class="grid">
+      <div class="state">正在加载账号...</div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = '/api/accounts';
+    let accountsData = [];
+
+    function escapeHtml(text) {
+      return String(text || '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      }[char]));
+    }
+
+    function maskString(str) {
+      if (!str || str.length <= 6) return str || '';
+      return str.slice(0, 3) + '*'.repeat(str.length - 6) + str.slice(-3);
+    }
+
+    function statusText(status) {
+      if (status === true) return '正常';
+      if (status === false) return '异常';
+      return status || '未知';
+    }
+
+    function statusClass(status) {
+      return (status === true || status === '正常') ? 'ok' : 'bad';
+    }
+
+    function notifyHeight() {
+      const height = document.documentElement.scrollHeight;
+      window.parent?.postMessage({
+        type: 'shadowrocket-account-grid-height',
+        height,
+      }, '*');
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (_) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      }
+    }
+
+    function renderAccounts() {
+      const grid = document.getElementById('accountsGrid');
+
+      if (!accountsData.length) {
+        grid.innerHTML = '<div class="state">暂无可用账号</div>';
+        notifyHeight();
+        return;
+      }
+
+      grid.innerHTML = accountsData.map((account, index) => `
+        <div class="card">
+          <div class="card-head">
+            <span class="card-index">账号-${index + 1}</span>
+            <span class="badge ${statusClass(account.status)}">${escapeHtml(statusText(account.status))}</span>
+          </div>
+
+          <div class="row">
+            <div class="label">账号</div>
+            <div class="value">${escapeHtml(maskString(account.username || ''))}</div>
+          </div>
+
+          <div class="row">
+            <div class="label">密码</div>
+            <div class="value">${escapeHtml(maskString(account.password || ''))}</div>
+          </div>
+
+          <div class="row">
+            <div class="label">检查时间</div>
+            <div class="value">${escapeHtml(account.time || '未知')}</div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-user" data-type="username" data-index="${index}">复制账号</button>
+            <button class="btn btn-pass" data-type="password" data-index="${index}">复制密码</button>
+          </div>
+        </div>
+      `).join('');
+
+      notifyHeight();
+    }
+
+    async function fetchAccounts() {
+      const grid = document.getElementById('accountsGrid');
+
+      try {
+        const response = await fetch(API_URL, { headers: { Accept: 'application/json' } });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (!data || !Array.isArray(data.accounts)) {
+          throw new Error('账号接口数据格式错误');
+        }
+
+        accountsData = data.accounts;
+        renderAccounts();
+      } catch (error) {
+        grid.innerHTML = `<div class="state">账号加载失败：${escapeHtml(error.message)}</div>`;
+        notifyHeight();
+      }
+    }
+
+    document.addEventListener('click', async (event) => {
+      const button = event.target.closest('button[data-type]');
+      if (!button) return;
+
+      const index = Number(button.dataset.index);
+      const type = button.dataset.type;
+      const value = accountsData[index]?.[type] || '';
+      if (!value) return;
+
+      const originalText = button.textContent;
+      await copyText(value);
+      button.textContent = '已复制';
+      setTimeout(() => {
+        button.textContent = originalText;
+      }, 1200);
+    });
+
+    window.addEventListener('resize', notifyHeight);
+    fetchAccounts();
+  </script>
+</body>
+</html>
